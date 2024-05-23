@@ -16,6 +16,8 @@ public class ServerWindow extends JFrame {
     public static final String MSG_USER_CONNECT = "подключился к беседе";
     public static final String MSG_USER_DISCONNECT = "покинул чат";
 
+    public static final String MSG_SERVER_NOT_AVAILABLE = "Сервер недоступен!";
+
     private boolean isServerStarted = false;
     private final JButton startBtn = new JButton("Start");
     private final JButton stopBtn = new JButton("Stop");
@@ -66,16 +68,17 @@ public class ServerWindow extends JFrame {
     }
 
     private void stopServer() {
-        chatLogsArea.append(MSG_SERVER_STOPPED + System.lineSeparator());
-        if (isServerStarted) {
-            isServerStarted = false;
-        }
+        showLog(MSG_SERVER_STOPPED + System.lineSeparator());
+        sendLogAll(MSG_SERVER_NOT_AVAILABLE);
+        isServerStarted = false;
     }
 
     private void startServer() {
         chatLogsArea.append(MSG_SERVER_STARTED + System.lineSeparator());
         isServerStarted = true;
     }
+
+
 
     private void saveLog(String msg) {
         try (FileWriter fileWriter = new FileWriter("logs.txt", true)) {
@@ -104,7 +107,7 @@ public class ServerWindow extends JFrame {
         if (isServerStarted) {
             clientsList.add(client);
             String log = client.getLogin() + " " + MSG_USER_CONNECT + System.lineSeparator();
-            chatLogsArea.append(log);
+            showLog(log);
             saveLog(log);
             return true;
         }
@@ -113,19 +116,26 @@ public class ServerWindow extends JFrame {
 
     public void disconnect(ClientGUI client) {
         clientsList.remove(client);
-        chatLogsArea.append(client.getLogin() + " " + MSG_USER_DISCONNECT + System.lineSeparator());
+        showLog(client.getLogin() + " " + MSG_USER_DISCONNECT + System.lineSeparator());
     }
 
-    public boolean sendMessage(ClientGUI client, String messageField) {
+    public boolean sendMessage(String message) {
         if (isServerStarted) {
-            String log = client.getLogin() + ": " + messageField + System.lineSeparator();
-            for (ClientGUI cl : clientsList) {
-                cl.getMessage(log);
-            }
-            saveLog(log);
-            chatLogsArea.append(log);
+            sendLogAll(message);
+            saveLog(message);
+            showLog(message);
             return true;
         }
         return false;
+    }
+
+    private void sendLogAll(String message) {
+        for (ClientGUI cl : clientsList) {
+            cl.getMessage(message);
+        }
+    }
+
+    private void showLog(String message) {
+        chatLogsArea.append(message);
     }
 }
