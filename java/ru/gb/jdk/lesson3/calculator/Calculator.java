@@ -16,6 +16,7 @@ import java.util.function.BinaryOperator;
  * Класс содержит методы для выполнения бинарных операций над типами, являющимися подклассами
  * класса Number. Cодержит обобщенные статические методы: sum(), multiply(), divide(), subtract()
  */
+// Вариант с предупреждением Unchecked cast
 public class Calculator {
     private static final List<String> types = Arrays.asList("Byte", "Short", "Integer", "Long", "Float", "Double");
 
