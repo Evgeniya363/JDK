@@ -21,7 +21,6 @@ public class Employee {
     private int experience;
 
     public Employee(String name, String phone, int experience) {
-//        this.serviceNumber = serviceNumber;
         this.name = name;
         this.phone = phone;
         this.experience = experience;
