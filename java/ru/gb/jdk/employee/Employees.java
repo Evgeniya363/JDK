@@ -1,5 +1,6 @@
 package ru.gb.jdk.employee;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -31,14 +32,14 @@ public class Employees {
         System.out.println(getPhoneByName(name));
 
         int sn = 440067;
-        System.out.println("Поиск работника по табельному номеру " + sn + ":");
-        Map<Integer, Employee> map2 = findEmployeeBySN(sn);
-        System.out.println(getList(map2));
+        System.out.println("\nПоиск работника по табельному номеру " + sn + ":");
+        Employee employee = findEmployeeBySN(sn);
+        System.out.println(sn + " " + employee);
 
-        System.out.println("Добавление работника:");
+        System.out.println("\nДобавление работника:");
         System.out.println(add(440088, "Kirill", "942938469", 4));
 
-        System.out.println("Список работников:");
+        System.out.println("\nСписок работников:");
         System.out.println(getList(employees));
 
     }
@@ -89,19 +90,17 @@ public class Employees {
     /*
      * Метод ищет сотрудника по табельному номеру
      */
-    private static Map<Integer, Employee> findEmployeeBySN(int sn) {
-        return employees
-                .entrySet()
-                .stream()
-                .filter(e -> e.getKey() == sn)
-                .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+    private static Employee findEmployeeBySN(int sn) {
+        return employees.get(sn);
     }
 
     /*
      * Метод добавления нового сотрудника в справочник
      */
     public static Employee add(int sn, String name, String phone, int experience) {
-        return employees.put(sn, new Employee(name, phone, experience));
+        Employee employee = new Employee(name, phone, experience);
+        employees.put(sn, employee);
+        return employee;
     }
 
 
