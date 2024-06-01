@@ -14,7 +14,7 @@ import java.util.concurrent.CountDownLatch;
  * количества приемов пищи - с помощью счетчика CountDownLatch, который
  * инициализируется в конструкторе Philosopher(int, CountDownLatch).
  * Также в конструктор передается глобальный счетчик типа CountDownLatch,
- * который позволяет синхронизировать окончание процесса Philosopher.
+ * который позволяет синхронизировать окончание потока Philosopher.
  * Методы: startEating(), finishEating(), reflectionLunch()
  */
 public class Philosopher extends Thread {
