@@ -12,11 +12,11 @@ package ru.gb.jdk.philosophers;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * Класс Main запускает COUNT процессов, имитирующих поведение философов,
+ * Класс Main запускает COUNT потоков, имитирующих поведение философов,
  * описанное в классе Philosopher потомок класса Thread. Сидящие за столом
  * философы сменяют фазы раздумий фазами приема пищи. Каждый филосов должен
  * отпотчивать ровно MEALS раз. Выходят из-за стола философы одновременно,
- * чем завершается соответствующий процесс Philosopher
+ * чем завершается соответствующий поток Philosopher
  */
 public class Main {
     public static final int COUNT = 5;
