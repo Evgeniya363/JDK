@@ -11,15 +11,27 @@ package ru.gb.jdk.philosophers;
 
 import java.util.concurrent.CountDownLatch;
 
-public class Main{
+/**
+ * Класс Main запускает COUNT процессов, имитирующих поведение философов,
+ * описанное в классе Philosopher потомок класса Thread. Сидящие за столом
+ * философы сменяют фазы раздумий фазами приема пищи. Каждый филосов должен
+ * отпотчивать ровно MEALS раз. Выходят из-за стола философы одновременно,
+ * чем завершается соответствующий процесс Philosopher
+ */
+public class Main {
     public static final int COUNT = 5;
     public static final int MEALS = 3;
     private static Philosopher[] philosophers = new Philosopher[COUNT];
-    static CountDownLatch cdl = new CountDownLatch(COUNT);
+    static CountDownLatch mainCdl = new CountDownLatch(COUNT);
+
+    public static void main(String[] args) throws InterruptedException {
+        init();
+        start();
+    }
 
     private static void init() {
         for (int i = 0; i < COUNT; i++) {
-            philosophers[i] = new Philosopher(MEALS, cdl);
+            philosophers[i] = new Philosopher(MEALS, mainCdl);
         }
         for (int i = 0; i < COUNT; i++) {
             philosophers[i].setPrev(philosophers[((i - 1) < 0 ? COUNT - 1 : (i - 1))]);
@@ -33,22 +45,4 @@ public class Main{
         }
     }
 
-    public static void main(String[] args) throws InterruptedException {
-
-        init();
-        start();
-//        finish();
-       cdl.await();
-
-    }
-
-    private static void finish()  {
-        for (int i = 0; i < COUNT; i++) {
-            try {
-                philosophers[i].getCdl().await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
